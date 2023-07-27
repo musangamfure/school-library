@@ -26,32 +26,21 @@ def list_people
   end
 end
 
-def create_person
-  puts 'Create a Person (Student or Teacher)'
-  puts 'Enter Name:'
-  name = gets.chomp
-  puts 'Enter Age:'
-  age = gets.chomp.to_i
-  puts 'Is this person a Teacher? (y/n)'
-  is_teacher = gets.chomp.downcase == 'y'
-
-  if is_teacher
-    puts 'Enter Specialization:'
-    specialization = gets.chomp
-    person = Teacher.new(age, specialization, name)
-  else
-    puts 'Enter Classroom Label:'
-    classroom_label = gets.chomp
-    classroom = @classrooms.find { |c| c.label == classroom_label }
-    unless classroom
-      classroom = Classroom.new(classroom_label)
-      @classrooms << classroom
-    end
-    person = Student.new(age, classroom, name)
+def create_student(name, age, classroom_label)
+  classroom = @classrooms.find { |c| c.label == classroom_label }
+  unless classroom
+    classroom = Classroom.new(classroom_label)
+    @classrooms << classroom
   end
+  student = Student.new(age, classroom, name)
+  @people << student
+  puts 'Student created successfully!'
+end
 
-  @people << person
-  puts 'Person created successfully!'
+def create_teacher(name, age, specialization)
+  teacher = Teacher.new(age, specialization, name)
+  @people << teacher
+  puts 'Teacher created successfully!'
 end
 
 def create_book
