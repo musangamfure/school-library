@@ -1,4 +1,11 @@
 require_relative 'app'
+require_relative 'list_books_handler'
+require_relative 'list_people_handler'
+require_relative 'create_student_handler'
+require_relative 'create_teacher_handler'
+require_relative 'create_book_handler'
+require_relative 'create_rental_handler'
+require_relative 'list_rentals_for_person_handler'
 
 def print_options
   puts 'Choose an option:'
@@ -14,17 +21,25 @@ end
 
 def handle_option(choice)
   option_handler = {
-    1 => ListBooksHandler.new,
-    2 => ListPeopleHandler.new,
-    3 => CreateStudentHandler.new,
-    4 => CreateTeacherHandler.new,
-    5 => CreateBookHandler.new,
-    6 => CreateRentalHandler.new,
-    7 => ListRentalsForPersonHandler.new
+    1 => ListBooksHandler.new(@books),
+    2 => ListPeopleHandler.new(@people),
+    3 => CreateStudentHandler.new(@people, @classrooms),
+    4 => CreateTeacherHandler.new(@people),
+    5 => CreateBookHandler.new(@books),
+    6 => CreateRentalHandler.new(@people, @books, @rentals),
+    7 => ListRentalsForPersonHandler.new(@people, @rentals)
   }
 
-  handler = option_handler[choice]
-  handler&.handle || puts('Invalid option, please try again.')
+  loop do
+    if (handler = option_handler[choice])
+      handler.handle
+      break
+    else
+      puts 'Invalid option, please try again.'
+      print_options
+      choice = gets.chomp.to_i
+    end
+  end
 end
 
 def main

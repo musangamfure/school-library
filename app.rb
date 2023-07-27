@@ -1,4 +1,3 @@
-# app.rb
 require_relative 'person'
 require_relative 'student'
 require_relative 'teacher'
@@ -11,6 +10,15 @@ require_relative 'rental'
 @books = []
 @classrooms = []
 @rentals = []
+
+# Add some sample books
+book1 = Book.new('Ruby Programming', 'John Doe')
+book2 = Book.new('Python Basics', 'Jane Smith')
+
+@books << book1
+@books << book2
+
+# ... (initialize other data as needed)
 
 def list_books
   puts 'List of Books:'
