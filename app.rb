@@ -53,8 +53,6 @@ class SchoolLibraryApp
   end
 
   def run
-    puts 'Welcome to the School Library App!'
-
     loop do
       print_options
 
