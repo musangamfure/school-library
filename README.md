@@ -88,7 +88,7 @@ Install this project with:
 To run the project, execute the following command:
 
 ```sh
-  ruby result.rb
+  ruby main.rb
 ```
 
 ### Run tests
@@ -110,6 +110,12 @@ To run tests, run the following command:
 - [GitHub](https://github.com/musangamfure)
 - [Twitter](https://twitter.com/musangamfure)
 - [LinkedIn](https://www.linkedin.com/in/musangamfurae)
+
+👤 **lordksix**
+
+- GitHub: [@lordksix](https://github.com/lordksix)
+- LinkedIn: [@wladpasquel](https://www.linkedin.com/in/wladpasquel/)
+- Medium: [@wladimir.pasquel](https://medium.com/@wladimir.pasquel)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
