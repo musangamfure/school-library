@@ -4,103 +4,67 @@ require_relative 'teacher'
 require_relative 'classroom'
 require_relative 'book'
 require_relative 'rental'
+require_relative 'list_books_handler'
+require_relative 'list_people_handler'
+require_relative 'create_student_handler'
+require_relative 'create_teacher_handler'
+require_relative 'create_book_handler'
+require_relative 'create_rental_handler'
+require_relative 'list_rentals_for_person_handler'
 
-# Initialize some initial data for testing purposes
-@people = []
-@books = []
-@classrooms = []
-@rentals = []
-
-# Add some sample books
-book1 = Book.new('Ruby Programming', 'John Doe')
-book2 = Book.new('Python Basics', 'Jane Smith')
-
-@books << book1
-@books << book2
-
-# ... (initialize other data as needed)
-
-def list_books
-  puts 'List of Books:'
-  @books.each do |book|
-    puts "#{book.title} by #{book.author}"
-  end
-end
-
-def list_people
-  puts 'List of People:'
-  @people.each do |person|
-    puts "ID: #{person.id}, Name: #{person.name}, Age: #{person.age}"
-  end
-end
-
-def create_student(name, age, classroom_label)
-  classroom = @classrooms.find { |c| c.label == classroom_label }
-  unless classroom
-    classroom = Classroom.new(classroom_label)
-    @classrooms << classroom
-  end
-  student = Student.new(age, classroom, name)
-  @people << student
-  puts 'Student created successfully!'
-end
-
-def create_teacher(name, age, specialization)
-  teacher = Teacher.new(age, specialization, name)
-  @people << teacher
-  puts 'Teacher created successfully!'
-end
-
-def create_book
-  puts 'Create a Book'
-  puts 'Enter Title:'
-  title = gets.chomp
-  puts 'Enter Author:'
-  author = gets.chomp
-
-  book = Book.new(title, author)
-  @books << book
-  puts 'Book created successfully!'
-end
-
-def create_rental
-  puts 'Create a Rental'
-  puts 'Enter Person ID:'
-  person_id = gets.chomp.to_i
-  person = @people.find { |p| p.id == person_id }
-  unless person
-    puts 'Person not found!'
-    return
+class SchoolLibraryApp
+  def initialize
+    @people = []
+    @books = []
+    @classrooms = []
+    @rentals = []
   end
 
-  puts 'Enter Book Title:'
-  book_title = gets.chomp
-  book = @books.find { |b| b.title == book_title }
-  unless book
-    puts 'Book not found!'
-    return
+  def print_options
+    puts 'Choose an option:'
+    puts '1. List all books'
+    puts '2. List all people'
+    puts '3. Create a student'
+    puts '4. Create a teacher'
+    puts '5. Create a book'
+    puts '6. Create a rental'
+    puts '7. List rentals for a given person id'
+    puts '8. Quit'
   end
 
-  puts 'Enter Rental Date (YYYY-MM-DD):'
-  date = gets.chomp
+  def handle_option(choice)
+    option_handler = {
+      1 => ListBooksHandler.new(@books),
+      2 => ListPeopleHandler.new(@people),
+      3 => CreateStudentHandler.new(@people, @classrooms),
+      4 => CreateTeacherHandler.new(@people),
+      5 => CreateBookHandler.new(@books),
+      6 => CreateRentalHandler.new(@people, @books, @rentals),
+      7 => ListRentalsForPersonHandler.new(@people, @rentals)
+    }
 
-  rental = Rental.new(date, person, book)
-  @rentals << rental
-  puts 'Rental created successfully!'
-end
-
-def list_rentals_for_person
-  puts 'Enter Person ID:'
-  person_id = gets.chomp.to_i
-  person = @people.find { |p| p.id == person_id }
-  unless person
-    puts 'Person not found!'
-    return
+    if (handler = option_handler[choice])
+      handler.handle
+      true
+    else
+      puts 'Invalid option, please try again.'
+      false
+    end
   end
 
-  rentals = @rentals.select { |r| r.person == person }
-  puts "Rentals for #{person.name}:"
-  rentals.each do |rental|
-    puts "#{rental.book.title} by #{rental.book.author}, Date: #{rental.date}"
+  def run
+    puts 'Welcome to the School Library App!'
+
+    loop do
+      print_options
+
+      choice = gets.chomp.to_i
+
+      break if choice == 8
+
+      print_options unless handle_option(choice)
+    end
+
+    puts 'Goodbye!'
   end
 end
