@@ -55,27 +55,15 @@ class SchoolLibraryApp
   end
 
   def save_data_to_files
-    File.write('books.json', @books.to_json)
-    File.write('people.json', @people.to_json)
-    File.write('rentals.json', @rentals.to_json)
+    File.write('books.json', save_attr('books', @books))
+    File.write('people.json', save_attr('people', @people))
+    File.write('rentals.json', save_attr('rentals', @rentals))
   end
 
   def load_data_from_files
-    @books = begin
-      JSON.parse(File.read('books.json'))
-    rescue StandardError
-      []
-    end
-    @people = begin
-      JSON.parse(File.read('people.json'))
-    rescue StandardError
-      []
-    end
-    @rentals = begin
-      JSON.parse(File.read('rentals.json'))
-    rescue StandardError
-      []
-    end
+    @books = parse_books
+    @people = parse_people
+    @rentals = parse_rentals
   end
 
   def run
@@ -91,5 +79,90 @@ class SchoolLibraryApp
 
     save_data_to_files
     puts 'Goodbye!'
+  end
+
+  private
+
+  def save_attr(attribute, arr_attr)
+    temp_hash = {
+      attribute => arr_attr.to_json
+    }
+    JSON.dump(temp_hash)
+  end
+
+  def parse_books
+    parse_books = []
+    temp_books = begin
+      JSON.parse(JSON.parse(File.read('books.json'))['books'])
+    rescue StandardError
+      []
+    end
+    if temp_books.empty?
+      parse_books = temp_books
+    else
+      temp_books.each do |book|
+        temp_book = Book.new(book['title'], book['author'])
+        temp_book.rentals = []
+        parse_books << temp_book
+      end
+    end
+    parse_books
+  end
+
+  def parse_people
+    temp_people = begin
+      JSON.parse(JSON.parse(File.read('people.json'))['people'])
+    rescue StandardError
+      []
+    end
+    parse_people = []
+    if temp_people.empty?
+      parse_people = temp_people
+    else
+      temp_people.each do |person|
+        temp_person = parse_person(person)
+        parse_people << temp_person
+      end
+    end
+    parse_people
+  end
+
+  def parse_person(person)
+    if person['title'] == 'Student'
+      classroom = @classrooms.find { |c| c.label == person['classroom'] }
+      unless classroom
+        classroom = Classroom.new(person['classroom'])
+        @classrooms << classroom
+      end
+      temp_student = Student.new(person['age'], classroom, person['name'],
+                                 parent_permission: person['parent_permission'])
+      temp_student.id = person['id'].to_i
+      temp_student.rentals = []
+      temp_student
+    else
+      temp_teacher = Teacher.new(person['age'], person['specialization'], person['name'],
+                                 parent_permission: person['parent_permission'])
+      temp_teacher.id = person['id'].to_i
+      temp_teacher.rentals = []
+      temp_teacher
+    end
+  end
+
+  def parse_rentals
+    parse_rentals = []
+    temp_rentals = begin
+      JSON.parse(JSON.parse(File.read('rentals.json'))['rentals'])
+    rescue StandardError
+      []
+    end
+    if temp_rentals.empty?
+      parse_rentals = temp_rentals
+    else
+      temp_rentals.each do |rental|
+        temp_rental = Rental.new(rental['date'], rental['person'], rental['book'])
+        parse_rentals << temp_rental
+      end
+    end
+    parse_rentals
   end
 end

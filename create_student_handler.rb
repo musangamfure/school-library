@@ -27,7 +27,7 @@ class CreateStudentHandler
       classroom = Classroom.new(classroom_label)
       @classrooms << classroom
     end
-    student = Student.new(age, classroom, name, parent_permission: parent_permission)
+    student = Student.new(age, classroom, name, parent_permission:)
     @people << student
     puts 'Student created successfully!'
   end
