@@ -11,6 +11,7 @@ require_relative 'create_teacher_handler'
 require_relative 'create_book_handler'
 require_relative 'create_rental_handler'
 require_relative 'list_rentals_for_person_handler'
+require 'json'
 
 class SchoolLibraryApp
   def initialize
@@ -18,6 +19,7 @@ class SchoolLibraryApp
     @books = []
     @classrooms = []
     @rentals = []
+    load_data_from_files
   end
 
   def print_options
@@ -52,6 +54,25 @@ class SchoolLibraryApp
     end
   end
 
+
+  def load_data_from_files
+    @books = begin
+      JSON.parse(File.read('books.json'))
+    rescue StandardError
+      []
+    end
+    @people = begin
+      JSON.parse(File.read('people.json'))
+    rescue StandardError
+      []
+    end
+    @rentals = begin
+      JSON.parse(File.read('rentals.json'))
+    rescue StandardError
+      []
+    end
+  end
+
   def run
     loop do
       print_options
@@ -63,6 +84,7 @@ class SchoolLibraryApp
       print_options unless handle_option(choice)
     end
 
+    save_data_to_files
     puts 'Goodbye!'
   end
 end
