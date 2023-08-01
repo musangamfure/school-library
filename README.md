@@ -49,6 +49,7 @@
 - **Add new students or teachers.**
 - **Add new books.**
 - **Save records of who borrowed a given book and when.**
+- **Save information on JSON files and load those files.**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -123,8 +124,6 @@ To run tests, run the following command:
 
 ## 🔭 Future Features <a name="future-features"></a>
 
-- [ ] **add basic UI**
-- [ ] **preserve data**
 - [ ] **unit tests**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
