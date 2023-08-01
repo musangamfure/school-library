@@ -54,6 +54,11 @@ class SchoolLibraryApp
     end
   end
 
+  def save_data_to_files
+    File.write('books.json', @books.to_json)
+    File.write('people.json', @people.to_json)
+    File.write('rentals.json', @rentals.to_json)
+  end
 
   def load_data_from_files
     @books = begin
