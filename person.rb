@@ -1,3 +1,4 @@
+# person.rb
 require_relative 'nameable'
 require_relative 'capitalize_decorator'
 require_relative 'base_decorator'
@@ -27,5 +28,11 @@ class Person < Nameable
   def add_rental(rental)
     @rentals << rental
     rental.person = self
+  end
+
+  private
+
+  def of_age?
+    @age >= 18
   end
 end
