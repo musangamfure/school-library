@@ -1,7 +1,7 @@
-require_relative 'person'
-require_relative 'book'
-require_relative 'rental'
-require_relative 'list_rentals_for_person_handler'
+require_relative '../person'
+require_relative '../book'
+require_relative '../rental'
+require_relative '../list_rentals_for_person_handler'
 RSpec.describe ListRentalsForPersonHandler do
   let(:person1) { Person.new(30, 'Mr.', 'John Doe', parent_permission: true) }
   let(:person2) { Person.new(20, 'Miss', 'Jane Smith', parent_permission: false) }

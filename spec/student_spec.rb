@@ -1,6 +1,6 @@
-require_relative 'student'
-require_relative 'classroom'
-require_relative 'create_student_handler'
+require_relative '../student'
+require_relative '../classroom'
+require_relative '../create_student_handler'
 
 describe Student do
   let(:classroom) { Classroom.new('1A') }

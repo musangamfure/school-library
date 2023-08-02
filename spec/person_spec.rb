@@ -1,4 +1,4 @@
-require_relative 'person'
+require_relative '../person'
 
 RSpec.describe Person do
   let(:person) { Person.new(30, 'Mr.', 'John Doe', parent_permission: true) }

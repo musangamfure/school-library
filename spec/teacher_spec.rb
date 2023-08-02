@@ -1,7 +1,7 @@
 # teacher_spec.rb
 
-require_relative 'teacher'
-require_relative 'create_teacher_handler'
+require_relative '../teacher'
+require_relative '../create_teacher_handler'
 
 RSpec.describe Teacher do
   describe '#can_use_services?' do
