@@ -10,7 +10,6 @@ RSpec.describe Teacher do
       expect(teacher.can_use_services?).to eq(true)
     end
   end
-
 end
 
 RSpec.describe CreateTeacherHandler do

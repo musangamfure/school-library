@@ -1,4 +1,3 @@
-
 require_relative 'book'
 require_relative 'create_book_handler'
 

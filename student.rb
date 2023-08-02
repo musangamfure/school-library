@@ -28,6 +28,7 @@ class Student < Person
   def to_json(*_args)
     to_hash.to_json
   end
+
   def title
     'Student'
   end
