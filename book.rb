@@ -12,4 +12,15 @@ class Book
     @rentals << rental
     rental
   end
+
+  def to_hash
+    {
+      title: @title,
+      author: @author
+    }
+  end
+
+  def to_json(*_args)
+    to_hash.to_json
+  end
 end
