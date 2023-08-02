@@ -159,7 +159,9 @@ class SchoolLibraryApp
       parse_rentals = temp_rentals
     else
       temp_rentals.each do |rental|
-        temp_rental = Rental.new(rental['date'], rental['person'], rental['book'])
+        book = @books.find { |b| b.title == rental['book']['title'] }
+        person = @people.find { |p| p.id == rental['person']['id'].to_i }
+        temp_rental = Rental.new(rental['date'], person, book)
         parse_rentals << temp_rental
       end
     end
