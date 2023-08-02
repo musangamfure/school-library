@@ -1,5 +1,5 @@
-require_relative 'classroom'
-require_relative 'student'
+require_relative '../classroom'
+require_relative '../student'
 RSpec.describe Classroom do
   let(:classroom) { Classroom.new('1A') }
   describe '#initialize' do
