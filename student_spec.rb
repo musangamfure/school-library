@@ -10,9 +10,11 @@ describe Student do
     expect(student.age).to eq(15)
     expect(student.classroom).to eq(classroom)
   end
+
   it 'is a person with the title "Student"' do
     expect(student.title).to eq('Student')
   end
+  
   it 'can play hooky' do
     expect(student.play_hooky).to eq('¯\(ツ)/¯')
   end
@@ -37,13 +39,9 @@ describe CreateStudentHandler do
   let(:handler) { CreateStudentHandler.new(people, classrooms) }
 
   it 'creates a student' do
-    allow($stdout).to receive(:puts) # Suppress console output
-
-  
+    allow($stdout).to receive(:puts) 
     allow_any_instance_of(Object).to receive(:gets).and_return('John Doe', '15', '1A', 'Y')
-
     handler.handle
-
     expect(people.length).to eq(1)
     expect(people[0]).to be_a(Student)
     expect(people[0].name).to eq('John Doe')
@@ -55,11 +53,8 @@ describe CreateStudentHandler do
 
   it 'creates a student without parent permission' do
     allow($stdout).to receive(:puts) 
-
     allow_any_instance_of(Object).to receive(:gets).and_return('Alice', '16', '1B', 'N')
-
     handler.handle
-
     expect(people.length).to eq(1)
     expect(people[0]).to be_a(Student)
     expect(people[0].parent_permission).to be false
